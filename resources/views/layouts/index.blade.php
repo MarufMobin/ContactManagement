@@ -6,7 +6,13 @@
     <div class="row">
         <div class="col-md-8 offset-2">
             <h2 class="pt-5 text-center">Contact All information List are here</h2>
+            <div class="my-4">
+                <a class="btn btn-primary btn-lg" href="{{ route('contacts.create') }}">Create New Record</a>
+                <a class="btn btn-primary btn-lg" href="{{ route('contacts.all', ['sort' => 'name', 'order' => request('order') === 'asc' ? 'desc' : 'asc']) }}">Name</a>
+                <a class="btn btn-primary btn-lg" href="{{ route('contacts.all', ['sort' => 'created_at', 'order' => request('order') === 'asc' ? 'desc' : 'asc']) }}">Date Created</a>
+            </div>
             <table class="table table-bordered table-striped">
+
                 <thead>
                     <tr>
                         <th scope="col">#SL</th>

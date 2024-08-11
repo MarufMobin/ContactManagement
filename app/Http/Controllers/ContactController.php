@@ -8,11 +8,28 @@ use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
-    public function contacts()
+    public function contacts(Request $request)
     {
-        $contracts = Contract::all();
+        // Get sorting parameters from the request
+        $sortField = $request->get('sort', 'created_at'); // Default sort by 'created_at'
+        $sortOrder = $request->get('order', 'asc'); // Default sort order is 'asc'
+
+        // Ensure valid sort field
+        if (!in_array($sortField, ['name', 'created_at'])) {
+            $sortField = 'created_at';
+        }
+
+        // Ensure valid sort order
+        if (!in_array($sortOrder, ['asc', 'desc'])) {
+            $sortOrder = 'asc';
+        }
+
+        // Fetch sorted contracts
+        $contracts = Contract::orderBy($sortField, $sortOrder)->get();
+
         return view('layouts.index', compact('contracts'));
     }
+
 
     public function create()
     {
