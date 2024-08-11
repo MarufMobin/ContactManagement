@@ -26,8 +26,15 @@
                         <td>{{ $item->email }}</td>
                         <td>{{ $item->phone }}</td>
                         <td>{{ $item->address }}</td>
-                        <td>Edit</td>
-                        <td>Delete</td>
+                        <td>
+                            <a href="{{route('contacts.edit', $item->id)}}" class="btn btn-primary btn-sm">Edit</a>
+                        </td>
+                        <td>
+                            <form action="{{ route('contacts.delete',$item->id ) }}" method="POST">
+                                @csrf
+                                <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                            </form>
+                        </td>
                     </tr>
                     @endforeach
                     @else
