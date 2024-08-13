@@ -24,11 +24,22 @@ class ContactController extends Controller
             $sortOrder = 'asc';
         }
 
-        // Fetch sorted contracts
-        $contracts = Contract::orderBy($sortField, $sortOrder)->get();
+        // Search functionality
+        $search = $request->get('search');
+        $contracts = Contract::where(function ($query) use ($search) {
+            if ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            }
+        })
+            ->orderBy($sortField, $sortOrder)
+            ->get();
 
-        return view('layouts.index', compact('contracts'));
+        return view('layouts.index', compact('contracts', 'search', 'sortField', 'sortOrder'));
     }
+
+
+
 
 
     public function create()
@@ -107,7 +118,7 @@ class ContactController extends Controller
 
 
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $data = Contract::find($id);
         if (!empty($data)) {
